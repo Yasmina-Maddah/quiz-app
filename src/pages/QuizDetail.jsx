@@ -3,11 +3,13 @@ import { useParams } from "react-router-dom";
 import { quizzes } from "../utils/quizzesData";
 
 const QuizDetail = () => {
-  const { id } = useParams();
-  const quiz = quizzes.find((quiz) => quiz.id === parseInt(id));
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const { id } = useParams(); // Correct way to use the useParams hook
+  const quiz = quizzes.find((quiz) => quiz.id === parseInt(id)); // Ensure quiz is fetched properly
+  const [currentQuestion, setCurrentQuestion] = useState(0); // Properly declared at the top
   const [score, setScore] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
+
+  // Ensure all hooks are at the top of the functional component and are not inside conditions/loops
 
   const handleAnswer = () => {
     const question = quiz.questions[currentQuestion];
@@ -21,6 +23,11 @@ const QuizDetail = () => {
       alert(`Quiz Complete! Your score is ${score + 1}`);
     }
   };
+
+  // Add a check for invalid quizzes to prevent null errors
+  if (!quiz) {
+    return <div>Quiz not found.</div>;
+  }
 
   return (
     <div>
